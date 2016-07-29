@@ -1,0 +1,37 @@
+FROM resin/%%RESIN_MACHINE_NAME%%-python:latest
+
+ENV INITSYSTEM on
+
+WORKDIR /usr/src/app
+
+RUN apt-get update && \
+    apt-get install -q -y \
+      build-essential \
+      automake \
+      cmake \
+      git \
+      byacc \
+      libpcre++-dev
+
+RUN git clone https://github.com/swig/swig.git && \
+    cd swig && \
+    ./autogen.sh && \
+    ./configure && \
+    make && \
+    make install
+
+
+# Update commit if need to recompile library
+ENV UPMCOMMIT e64f192fb755ce9ca4fc62caf7c4df68f4b8eebc
+RUN git clone https://github.com/intel-iot-devkit/upm.git && \
+    cd upm && \
+    git checkout ${UPMCOMMIT} && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make && \
+    make install
+
+ADD . ./
+
+CMD ["bash", "start.sh"]
