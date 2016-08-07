@@ -3,6 +3,7 @@ Temperature monitoring with Intel Edison and Samsung ARTIK Cloud
 """
 import os
 import time
+from math import log
 
 import artikcloud
 import pyupm_grove as grove
@@ -25,9 +26,23 @@ print(temp.name())
 led = mraa.Gpio(4)
 led.dir(mraa.DIR_OUT)
 
+def temp_convert(sensor):
+    """Adapted from UPM source code
+    https://github.com/intel-iot-devkit/upm/blob/4faa71d239f3549556a61df1a9c6f81c3d06bda2/src/grove/grovetemp.cxx#L54-L63
+    """
+    a = sensor.raw_value()
+    if a < 0:
+        return -300
+    m_scale, m_r0, m_b = 1.0, 100000.0, 4275.0
+    # Apply scale factor after error check
+    a *= m_scale;
+    r = (1023.0-a)*m_r0/a;
+    t = 1.0/(log(r/m_r0)/m_b + 1.0/298.15)-273.15;
+    return t
+
 i = 0
 while True:
-    celsius = temp.value()
+    celsius = temp_convert(temp)
     print("Current temperature: {}".format(celsius))
     if i % 600 == 0:
         # Send a new message
