@@ -14,8 +14,8 @@ RUN apt-get update && \
       git \
       byacc \
       python-dev \
-      nodejs-dev \
-      libpcre++-dev
+      libpcre++-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ENV SWIGVERSION rel-3.0.10
 RUN git clone https://github.com/swig/swig.git && \
@@ -25,7 +25,7 @@ RUN git clone https://github.com/swig/swig.git && \
     ./configure && \
     make && \
     make install && \
-    which swig && echo ${PATH}
+    cd .. && rm -rf swig
 
 ENV MRAACOMMIT 29be2b64c050be3899da138c1d9a868327db2c95
 RUN git clone https://github.com/intel-iot-devkit/mraa.git && \
@@ -36,7 +36,8 @@ RUN git clone https://github.com/intel-iot-devkit/mraa.git && \
     cmake .. -DSWIG_DIR=`swig -swiglib` \
       -DBUILDSWIGPYTHON=ON -DBUILDSWIGNODE=OFF -DBUILDSWIGJAVA=OFF && \
     make && \
-    make install
+    make install &&
+    cd ../.. && rm -rf mraa
 
 # Update commit if need to recompile library
 ENV UPMCOMMIT 4faa71d239f3549556a61df1a9c6f81c3d06bda2
@@ -48,7 +49,12 @@ RUN git clone https://github.com/intel-iot-devkit/upm.git && \
     cmake .. -DSWIG_DIR=`swig -swiglib` \
       -DBUILDSWIGPYTHON=ON -DBUILDSWIGNODE=OFF -DBUILDSWIGJAVA=OFF && \
     make && \
-    make install
+    make install &&
+    cd ../.. && rm -rf upm
+
+COPY requirements.txt ./
+
+RUN pip install -r requirements.txt
 
 ADD . ./
 

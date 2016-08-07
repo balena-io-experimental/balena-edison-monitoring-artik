@@ -1,0 +1,1 @@
+-e git+https://github.com/artikcloud/artikcloud-python.git#egg=artikcloud
