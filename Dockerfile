@@ -27,7 +27,8 @@ RUN git clone https://github.com/swig/swig.git && \
     make install && \
     cd .. && rm -rf swig
 
-ENV MRAACOMMIT 29be2b64c050be3899da138c1d9a868327db2c95
+# For MRAAVERSION can use tag or commit hash
+ENV MRAAVERSION v1.2.1
 RUN git clone https://github.com/intel-iot-devkit/mraa.git && \
     cd mraa && \
     git checkout -b build ${MRAACOMMIT} && \
@@ -39,8 +40,8 @@ RUN git clone https://github.com/intel-iot-devkit/mraa.git && \
     make install && \
     cd ../.. && rm -rf mraa
 
-# Update commit if need to recompile library
-ENV UPMCOMMIT 4faa71d239f3549556a61df1a9c6f81c3d06bda2
+# For UPMVERSION can use tag or commit hash
+ENV UPMVERSION v0.7.3
 RUN git clone https://github.com/intel-iot-devkit/upm.git && \
     cd upm && \
     git checkout -b build ${UPMCOMMIT} && \
