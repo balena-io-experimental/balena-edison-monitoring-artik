@@ -36,7 +36,7 @@ RUN git clone https://github.com/intel-iot-devkit/mraa.git && \
     cmake .. -DSWIG_DIR=`swig -swiglib` \
       -DBUILDSWIGPYTHON=ON -DBUILDSWIGNODE=OFF -DBUILDSWIGJAVA=OFF && \
     make && \
-    make install &&
+    make install && \
     cd ../.. && rm -rf mraa
 
 # Update commit if need to recompile library
@@ -49,7 +49,7 @@ RUN git clone https://github.com/intel-iot-devkit/upm.git && \
     cmake .. -DSWIG_DIR=`swig -swiglib` \
       -DBUILDSWIGPYTHON=ON -DBUILDSWIGNODE=OFF -DBUILDSWIGJAVA=OFF && \
     make && \
-    make install &&
+    make install && \
     cd ../.. && rm -rf upm
 
 COPY requirements.txt ./
