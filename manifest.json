@@ -1,0 +1,17 @@
+{
+  "fields": [
+    {
+      "name": "Temperature",
+      "type": "CUSTOM",
+      "valueClass": "Double",
+      "isCollection": false,
+      "description": "Ambient temperature measurement",
+      "tags": [
+        "environment",
+        "temperature"
+      ],
+      "unitSymbol": "℃"
+    }
+  ],
+  "messageFormat": "json"
+}
