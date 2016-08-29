@@ -58,7 +58,7 @@ while True:
         message.sdid = "{}".format(DEVICE_ID)
         message.ts = int(round(time.time() * 1000))  # timestamp, required
         message.data = {'Temperature': meancelsius}
-        response = messages_api.send_message_action(message)
+        response = messages_api.send_message(message)
         print(response)
         i = 0
         led.write(1)
