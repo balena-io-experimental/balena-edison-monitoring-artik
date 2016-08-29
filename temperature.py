@@ -7,6 +7,7 @@ from math import log
 import statistics
 
 import artikcloud
+from artikcloud.rest import ApiException
 import pyupm_grove as grove
 import mraa
 
@@ -16,8 +17,7 @@ DEVICE_TOKEN = os.getenv('ARTIKCLOUD_DEVICE_TOKEN')
 AVERAGE = os.getenv('AVERAGE', 5)
 
 # Setting up ARTIK Cloud connection
-api_client = artikcloud.ApiClient()
-api_client.set_default_header(header_name="Authorization", header_value="Bearer {}".format(DEVICE_TOKEN))
+artikcloud.configuration.access_token = DEVICE_TOKEN
 
 # Setting up messaging
 messages_api = artikcloud.MessagesApi(api_client)
@@ -53,12 +53,15 @@ while True:
     print("Current temperature: {0:.2f} (mean: {1:.2f})".format(celsius, meancelsius))
     if i % 600 == 0:
         # Send a new message
-        message = artikcloud.MessageAction()
+        message = artikcloud.Message()
         message.type = "message"
         message.sdid = "{}".format(DEVICE_ID)
         message.ts = int(round(time.time() * 1000))  # timestamp, required
         message.data = {'Temperature': meancelsius}
-        response = messages_api.send_message(message)
+        try:
+            response = messages_api.send_message(message)
+        except ApiException:
+            raise
         print(response)
         i = 0
         led.write(1)
