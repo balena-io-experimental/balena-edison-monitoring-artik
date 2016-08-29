@@ -1,4 +1,4 @@
-FROM resin/edison-python:3
+FROM resin/edison-python:3.4
 
 MAINTAINER Gergely Imreh <gergely@resin.io>
 
@@ -13,7 +13,7 @@ RUN apt-get update && \
       cmake \
       git \
       byacc \
-      python-dev \
+      python3.4-dev \
       libpcre++-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
