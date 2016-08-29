@@ -37,9 +37,9 @@ def temp_convert(sensor):
         return -300
     m_scale, m_r0, m_b = 1.0, 100000.0, 4275.0
     # Apply scale factor after error check
-    a *= m_scale;
-    r = (1023.0-a)*m_r0/a;
-    t = 1.0/(log(r/m_r0)/m_b + 1.0/298.15)-273.15;
+    a *= m_scale
+    r = (1023.0-a)*m_r0/a
+    t = 1.0/(log(r/m_r0)/m_b + 1.0/298.15)-273.15
     return t
 
 i = 0
