@@ -47,7 +47,7 @@ RUN git clone https://github.com/intel-iot-devkit/upm.git && \
     git checkout -b build ${UPMCOMMIT} && \
     mkdir build && \
     cd build && \
-    cmake .. -DSWIG_DIR=`swig -swiglib` \
+    cmake .. -DSWIG_DIR=`swig -swiglib` -DBUILDPYTHON3=ON \
       -DBUILDSWIGPYTHON=ON -DBUILDSWIGNODE=OFF -DBUILDSWIGJAVA=OFF && \
     make && \
     make install && \
