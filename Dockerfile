@@ -1,4 +1,4 @@
-FROM resin/edison-python:latest
+FROM resin/edison-python:3
 
 MAINTAINER Gergely Imreh <gergely@resin.io>
 
