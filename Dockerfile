@@ -28,7 +28,7 @@ RUN git clone https://github.com/swig/swig.git && \
     cd .. && rm -rf swig
 
 # For MRAAVERSION can use tag or commit hash
-ENV MRAAVERSION v1.2.1
+ENV MRAAVERSION v1.2.3
 RUN git clone https://github.com/intel-iot-devkit/mraa.git && \
     cd mraa && \
     git checkout -b build ${MRAACOMMIT} && \
