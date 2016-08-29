@@ -20,7 +20,7 @@ AVERAGE = os.getenv('AVERAGE', 5)
 artikcloud.configuration.access_token = DEVICE_TOKEN
 
 # Setting up messaging
-messages_api = artikcloud.MessagesApi(api_client)
+messages_api = artikcloud.MessagesApi()
 
 # Create the temperature sensor object using AIO pin 0
 temp = grove.GroveTemp(0)
