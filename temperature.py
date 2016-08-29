@@ -42,9 +42,16 @@ def temp_convert(sensor):
     t = 1.0/(log(r/m_r0)/m_b + 1.0/298.15)-273.15
     return t
 
+# Throw away readings to settle down
+print("Throw-away readings to settle")
+for i in range(5):
+    celsius = temp_convert(temp)
+    print("Current temperature: {0:.2f}".format(celsius))
+    time.sleep(1)
+
+print("Starting proper readings")
 i = 0
 readings = []
-time.sleep(3)
 while True:
     celsius = temp_convert(temp)
     readings.append(celsius)
