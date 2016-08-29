@@ -4,6 +4,7 @@ Temperature monitoring with Intel Edison and Samsung ARTIK Cloud
 import os
 import time
 from math import log
+import statistics
 
 import artikcloud
 import pyupm_grove as grove
@@ -12,6 +13,7 @@ import mraa
 # Setting credentials from the environmental variables
 DEVICE_ID = os.getenv('ARTIKCLOUD_DEVICE_ID')
 DEVICE_TOKEN = os.getenv('ARTIKCLOUD_DEVICE_TOKEN')
+AVERAGE = os.getenv('AVERAGE', 5)
 
 # Setting up ARTIK Cloud connection
 api_client = artikcloud.ApiClient()
@@ -41,16 +43,21 @@ def temp_convert(sensor):
     return t
 
 i = 0
+readings = []
 while True:
     celsius = temp_convert(temp)
-    print("Current temperature: {}".format(celsius))
+    readings.append(celsius)
+    if len(readings) > AVERAGE:
+        readings.pop(0)
+    meancelsius = statistics.mean(readings)
+    print("Current temperature: {} (mean: {})".format(celsius, meancelsius))
     if i % 600 == 0:
         # Send a new message
         message = artikcloud.MessageAction()
         message.type = "message"
         message.sdid = "{}".format(DEVICE_ID)
         message.ts = int(round(time.time() * 1000))  # timestamp, required
-        message.data = {'Temperature': celsius}
+        message.data = {'Temperature': meancelsius}
         response = messages_api.send_message_action(message)
         print(response)
         i = 0
