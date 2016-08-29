@@ -13,7 +13,7 @@ RUN apt-get update && \
       cmake \
       git \
       byacc \
-      python3.4-dev \
+      python-dev \
       libpcre++-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
