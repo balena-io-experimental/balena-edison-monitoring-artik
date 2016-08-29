@@ -44,6 +44,7 @@ def temp_convert(sensor):
 
 i = 0
 readings = []
+time.sleep(3)
 while True:
     celsius = temp_convert(temp)
     readings.append(celsius)
