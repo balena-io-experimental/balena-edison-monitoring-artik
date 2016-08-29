@@ -50,7 +50,7 @@ while True:
     if len(readings) > AVERAGE:
         readings.pop(0)
     meancelsius = statistics.mean(readings)
-    print("Current temperature: {} (mean: {})".format(celsius, meancelsius))
+    print("Current temperature: {0:.2f} (mean: {1:.2f})".format(celsius, meancelsius))
     if i % 600 == 0:
         # Send a new message
         message = artikcloud.MessageAction()
