@@ -1,4 +1,4 @@
-FROM resin/edison-python:3.4
+FROM resin/edison-python:2.7
 
 MAINTAINER Gergely Imreh <gergely@resin.io>
 
@@ -47,7 +47,7 @@ RUN git clone https://github.com/intel-iot-devkit/upm.git && \
     git checkout -b build ${UPMCOMMIT} && \
     mkdir build && \
     cd build && \
-    cmake .. -DSWIG_DIR=`swig -swiglib` -DBUILDPYTHON3=ON \
+    cmake .. -DSWIG_DIR=`swig -swiglib` \
       -DBUILDSWIGPYTHON=ON -DBUILDSWIGNODE=OFF -DBUILDSWIGJAVA=OFF && \
     make && \
     make install && \
