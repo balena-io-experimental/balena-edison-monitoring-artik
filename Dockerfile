@@ -21,7 +21,7 @@ RUN apt-get update && \
 ENV SWIGVERSION rel-3.0.10
 RUN git clone https://github.com/swig/swig.git && \
     cd swig && \
-    git checkout ${SWIGVERSION} && \
+    git checkout -b build ${SWIGVERSION} && \
     ./autogen.sh && \
     ./configure && \
     make && \
