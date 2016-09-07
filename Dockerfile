@@ -17,6 +17,7 @@ RUN apt-get update && \
       libpcre++-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Can use tag or commit hash to set SWIGERSION
 ENV SWIGVERSION rel-3.0.10
 RUN git clone https://github.com/swig/swig.git && \
     cd swig && \
@@ -27,7 +28,7 @@ RUN git clone https://github.com/swig/swig.git && \
     make install && \
     cd .. && rm -rf swig
 
-# For MRAAVERSION can use tag or commit hash
+# Can use tag or commit hash to set MRAAVERSION
 ENV MRAAVERSION v1.2.3
 RUN git clone https://github.com/intel-iot-devkit/mraa.git && \
     cd mraa && \
@@ -40,7 +41,7 @@ RUN git clone https://github.com/intel-iot-devkit/mraa.git && \
     make install && \
     cd ../.. && rm -rf mraa
 
-# For UPMVERSION can use tag or commit hash
+# Can use tag or commit hash to set UPMVERSION
 ENV UPMVERSION v0.7.3
 RUN git clone https://github.com/intel-iot-devkit/upm.git && \
     cd upm && \
