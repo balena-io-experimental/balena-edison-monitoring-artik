@@ -17,6 +17,7 @@ import requests
 DEVICE_ID = os.getenv('ARTIKCLOUD_DEVICE_ID')
 DEVICE_TOKEN = os.getenv('ARTIKCLOUD_DEVICE_TOKEN')
 AVERAGE = os.getenv('AVERAGE', 5)
+PERIOD = 1
 
 # Setting up ARTIK Cloud connection
 artikcloud.configuration.access_token = DEVICE_TOKEN
@@ -70,6 +71,7 @@ i = 0
 error_count = 0
 readings = []
 while True:
+    loopstart = time.time()
     celsius = temp_convert(temp)
     readings.append(celsius)
     if len(readings) > AVERAGE:
@@ -103,4 +105,8 @@ while True:
         time.sleep(0.1)
         led.write(0)
     i += 1
-    time.sleep(1)
+    newsleep = (loopstart + PERIOD) - time.time()
+    if newsleep < 0:
+        print("WARNING: loop took {}s while period is {}!".format(PERIOD - newsleep, PERIOD))
+    else:
+        time.sleep(newsleep)
