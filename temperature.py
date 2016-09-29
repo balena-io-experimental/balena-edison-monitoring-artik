@@ -6,6 +6,7 @@ import os
 import time
 from math import log
 import statistics
+from collections import deque
 
 import artikcloud
 from artikcloud.rest import ApiException
@@ -69,13 +70,11 @@ for i in range(5):
 print("Starting proper readings")
 i = 0
 error_count = 0
-readings = []
+readings = deque(maxlen=AVERAGE)
 while True:
     loopstart = time.time()
     celsius = temp_convert(temp)
     readings.append(celsius)
-    if len(readings) > AVERAGE:
-        readings.pop(0)
     meancelsius = statistics.mean(readings)
     print("Current temperature: {0:.2f} (mean: {1:.2f})".format(celsius, meancelsius))
     if i % 600 == 0:
