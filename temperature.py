@@ -1,6 +1,7 @@
 """
 Temperature monitoring with Intel Edison and Samsung ARTIK Cloud
 """
+import sys
 import os
 import time
 from math import log
@@ -10,6 +11,7 @@ import artikcloud
 from artikcloud.rest import ApiException
 import pyupm_grove as grove
 import mraa
+import requests
 
 # Setting credentials from the environmental variables
 DEVICE_ID = os.getenv('ARTIKCLOUD_DEVICE_ID')
@@ -27,6 +29,20 @@ temp = grove.GroveTemp(0)
 print(temp.name())
 led = mraa.Gpio(4)
 led.dir(mraa.DIR_OUT)
+
+def reboot_device():
+    """Restart application through the resin Supervisor
+    """
+    params = {'apikey': os.getenv('RESIN_SUPERVISOR_API_KEY')}
+    payload = {'appId': os.getenv('RESIN_APP_ID')}
+    supervisor_address = os.getenv('RESIN_SUPERVISOR_ADDRESS')
+    print("Restarting Application")
+    r = requests.post("{}/v1/reboot".format(supervisor_address),
+                      supervisor_address,
+                      params=params,
+                      json=payload)
+    if r.status_code == 200:
+        sys.exit(0)
 
 def temp_convert(sensor):
     """Adapted from UPM source code
@@ -51,6 +67,7 @@ for i in range(5):
 
 print("Starting proper readings")
 i = 0
+error_count = 0
 readings = []
 while True:
     celsius = temp_convert(temp)
@@ -68,9 +85,19 @@ while True:
         message.data = {'Temperature': meancelsius}
         try:
             response = messages_api.send_message(message)
-        except ApiException:
-            raise
-        print(response)
+            print(response)
+        except ApiException as error:
+            print("API ERROR: {}".format(str(error)))
+            error_count += 1
+        except:
+            error = sys.exc_info()[0]
+            print("ERROR: {}".format(error))
+            error_count += 1
+        else:
+            error_count = 0
+        finally:
+            if error_count > 5:
+                reboot_device()
         i = 0
         led.write(1)
         time.sleep(0.1)

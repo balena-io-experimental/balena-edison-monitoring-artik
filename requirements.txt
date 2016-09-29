@@ -1,2 +1,3 @@
 statistics
 -e git+https://github.com/artikcloud/artikcloud-python.git#egg=artikcloud
+requests==2.11.1
