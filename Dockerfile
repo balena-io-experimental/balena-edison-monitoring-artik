@@ -42,7 +42,7 @@ RUN git clone https://github.com/intel-iot-devkit/mraa.git && \
     cd ../.. && rm -rf mraa
 
 # Can use tag or commit hash to set UPMVERSION
-ENV UPMVERSION v0.7.3
+ENV UPMVERSION v0.8.0
 RUN git clone https://github.com/intel-iot-devkit/upm.git && \
     cd upm && \
     git checkout -b build ${UPMCOMMIT} && \
