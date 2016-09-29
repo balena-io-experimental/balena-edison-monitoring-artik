@@ -17,7 +17,12 @@ import requests
 # Setting credentials from the environmental variables
 DEVICE_ID = os.getenv('ARTIKCLOUD_DEVICE_ID')
 DEVICE_TOKEN = os.getenv('ARTIKCLOUD_DEVICE_TOKEN')
-AVERAGE = os.getenv('AVERAGE', 5)
+try:
+    AVERAGE = int(os.getenv('AVERAGE', 5))
+except:
+    AVERAGE = 5
+finally:
+    print("INFO: averaging over {} readings".format(AVERAGE))
 PERIOD = 1
 
 # Setting up ARTIK Cloud connection
